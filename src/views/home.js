@@ -1,4 +1,5 @@
 import React, {useRef} from 'react';
+import SvgUpload from '../components/svgUpload';
 import {utils} from "./../utils/utils";
 
 function Home({setScenario, setLoading}) {
@@ -23,9 +24,8 @@ function Home({setScenario, setLoading}) {
         View a Barnes Hut simulation
       </h1>
       <input type="file" id="file-selector" onChange={fileParse} accept=".json" ref={hiddenFileInput} style={{display: 'none'}}/>
-      <div id="welcome-wrapper">
-        <input type="button" id="file-cover" value="Upload JSON..." onClick={(event) => hiddenFileInput.current.click()}/>
-      </div>
+      <input type="button" id="file-cover" value="Upload JSON..." onClick={(event) => hiddenFileInput.current.click()}/>
+      <SvgUpload/>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {utils} from "./../utils/utils";
+import Settings from './settings';
 import SvgQuadtreeNode from './svgQuadtreeNode';
 
 function SvgAnimator({scenario}) {
@@ -23,6 +24,7 @@ function SvgAnimator({scenario}) {
       setTimeout(() => {
           setCurrStep(scenario.simulationSteps[stepIndex.current].quadtree);
           stepIndex.current++;
+          console.log(timeInterval.current)
           if(stepIndex.current < scenario.simulationSteps.length){
             animate();
           }
@@ -43,12 +45,12 @@ function SvgAnimator({scenario}) {
 
   return (
     <>
-      <svg width={svgInfo.svgW} height={svgInfo.svgH} viewBox={`${svgInfo.vbX} ${svgInfo.vbY} ${svgInfo.vbW} ${svgInfo.vbH}`}>
+      <Settings timeInterval={timeInterval} updateTimeInterval={updateTimeInterval}/>
+      <svg id="animator" width={svgInfo.svgW} height={svgInfo.svgH} viewBox={`${svgInfo.vbX} ${svgInfo.vbY} ${svgInfo.vbW} ${svgInfo.vbH}`}>
         {
           (svgInfo.bodiesSize != null) ? <SvgQuadtreeNode quadtree={currStep} bodiesSize={svgInfo.bodiesSize} velocityRatio={svgInfo.velocityRatio}/> : <></>
         }
       </svg>
-      <input type="number" id="sleep" name="sleep" min="0" max="5000" defaultValue={timeInterval.current} onChange={updateTimeInterval}/>
     </>
   );
 }
