@@ -5,7 +5,7 @@ import SvgBody from './svgBody';
 function SvgQuadtreeNode({quadtree, bodiesSize, velocityRatio}) {
 
   function computeOutput(quadtree, bodiesSize){
-    if(quadtree?.leaf && quadtree.leaf.body) {
+    if(quadtree && quadtree.leaf && quadtree.leaf.body) {
       return (
         <g>
           <SvgBoundingBox 
@@ -18,7 +18,7 @@ function SvgQuadtreeNode({quadtree, bodiesSize, velocityRatio}) {
                    vr={velocityRatio}/>
         </g>
       )
-    }else if(quadtree?.leaf){
+    }else if(quadtree && quadtree.leaf){
       return (
         <SvgBoundingBox 
           x={quadtree.boundingBox.bottomLeft.x} y={quadtree.boundingBox.bottomLeft.y} 
@@ -26,7 +26,7 @@ function SvgQuadtreeNode({quadtree, bodiesSize, velocityRatio}) {
           height={quadtree.boundingBox.topRight.y - quadtree.boundingBox.bottomLeft.y}
         />
       )
-    }else if(quadtree?.fork){
+    }else if(quadtree && quadtree.fork){
       return (
         <g>
           <SvgBoundingBox 
