@@ -134,15 +134,22 @@ div#settings-wrapper{
 div#settings{
     margin: 0px 0px 0px 7px;
     display: inline-block;
-    width: 215px;
+    width: 450px;
 }
 
 div#settings label{
-    margin: 0px 5px 0px 0px;
     line-height: 28px;
 }
 
-div#settings input{
+div#settings label#s{
+    margin: 0px 5px 0px 0px;
+}
+
+div#settings label#vb{
+    margin: 0px 5px 0px 10px;
+}
+
+div#settings input#sleep{
     width: 50px;
 }
 

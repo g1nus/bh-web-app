@@ -53,12 +53,11 @@ function setUpSvg(windowHeight, windowWidth, maxBoundingBox) {
   return{
     svgH: (windowHeight < windowWidth) ? windowHeight : windowWidth * (vbH/vbW),
     svgW: (windowHeight >= windowWidth) ? windowWidth : windowHeight * (vbW/vbH),
-    vbH: vbH,
-    vbW: vbW,
-    vbY: maxBoundingBox.bottomLeft.y,
-    vbX: maxBoundingBox.bottomLeft.x,
-    displayMaxBBox: true,
-    bodiesSize: (vbH > vbW) ? vbH/60 : vbW/60,
+    maxVbH: vbH,
+    maxVbW: vbW,
+    maxVbY: maxBoundingBox.bottomLeft.y,
+    maxVbX: maxBoundingBox.bottomLeft.x,
+    bodiesSize: (vbH > vbW) ? vbH/100 : vbW/100,
     velocityRatio: (vbH > vbW) ? vbH/1000 : vbW/1000
   };
 }

@@ -6,8 +6,10 @@ import SvgQuadtreeNode from './svgQuadtreeNode';
 function SvgAnimator({scenario}) {
 
   const [svgInfo, setSvgInfo] = useState(
-    {svgH: 0, svgW: 0, vbH: 0, vbW: 0, vbY: 0, vbX: 0, displayMaxBBox: true, bodiesSize: null, velocityRatio: 0}
+    {svgH: 0, svgW: 0, maxVbH: 0, maxVbW: 0, maxVbY: 0, maxVbX: 0, bodiesSize: null, velocityRatio: 0}
   );
+
+  const [displayMaxBBox, setDisplayMaxBBox] = useState(true);
 
   const [currStep, setCurrStep] = useState([]);
 
@@ -43,12 +45,26 @@ function SvgAnimator({scenario}) {
     }
   }
 
+  function toggleMaxBBox(){
+    setDisplayMaxBBox(!displayMaxBBox);
+  }
+
   return (
     <>
-      <Settings timeInterval={timeInterval} updateTimeInterval={updateTimeInterval}/>
-      <svg id="animator" width={svgInfo.svgW} height={svgInfo.svgH} viewBox={`${svgInfo.vbX} ${svgInfo.vbY} ${svgInfo.vbW} ${svgInfo.vbH}`}>
+      <Settings timeInterval={timeInterval} updateTimeInterval={updateTimeInterval} displayMaxBBox={displayMaxBBox} toggleMaxBBox={toggleMaxBBox}/>
+      <svg id="animator" width={svgInfo.svgW} height={svgInfo.svgH} viewBox={
+        (displayMaxBBox) ?
+          `${svgInfo.maxVbX} ${svgInfo.maxVbY} ${svgInfo.maxVbW} ${svgInfo.maxVbH}`
+        :
+          `${currStep.boundingBox.bottomLeft.x} ${currStep.boundingBox.bottomLeft.y} ${currStep.boundingBox.topRight.x - currStep.boundingBox.bottomLeft.x} ${currStep.boundingBox.topRight.y - currStep.boundingBox.bottomLeft.y}`
+        }>
         {
-          (svgInfo.bodiesSize != null) ? <SvgQuadtreeNode quadtree={currStep} bodiesSize={svgInfo.bodiesSize} velocityRatio={svgInfo.velocityRatio}/> : <></>
+          (svgInfo.bodiesSize != null) ? <SvgQuadtreeNode quadtree={currStep} bodiesSize={
+            (displayMaxBBox) ?
+              svgInfo.bodiesSize
+            :
+              ((currStep.boundingBox.topRight.x - currStep.boundingBox.bottomLeft.x)/100)
+          } velocityRatio={svgInfo.velocityRatio}/> : <></>
         }
       </svg>
     </>
