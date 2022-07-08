@@ -5,7 +5,7 @@ import SvgQuadtreeNode from './svgQuadtreeNode';
 function SvgAnimator({scenario}) {
 
   const [svgInfo, setSvgInfo] = useState(
-    {svgH: 0, svgW: 0, vbH: 0, vbW: 0, vbY: 0, vbX: 0, displayMaxBBox: true, bodiesSize: null}
+    {svgH: 0, svgW: 0, vbH: 0, vbW: 0, vbY: 0, vbX: 0, displayMaxBBox: true, bodiesSize: null, velocityRatio: 0}
   );
 
   const [currStep, setCurrStep] = useState([]);
@@ -45,7 +45,7 @@ function SvgAnimator({scenario}) {
     <>
       <svg width={svgInfo.svgW} height={svgInfo.svgH} viewBox={`${svgInfo.vbX} ${svgInfo.vbY} ${svgInfo.vbW} ${svgInfo.vbH}`}>
         {
-          (svgInfo.bodiesSize != null) ? <SvgQuadtreeNode quadtree={currStep} bodiesSize={svgInfo.bodiesSize}/> : <></>
+          (svgInfo.bodiesSize != null) ? <SvgQuadtreeNode quadtree={currStep} bodiesSize={svgInfo.bodiesSize} velocityRatio={svgInfo.velocityRatio}/> : <></>
         }
       </svg>
       <input type="number" id="sleep" name="sleep" min="0" max="5000" defaultValue={timeInterval.current} onChange={updateTimeInterval}/>

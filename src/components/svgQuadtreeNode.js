@@ -1,24 +1,27 @@
 import React from 'react';
-import SvgRectangle from './svgRectangle';
-import SvgCircle from './svgCircle';
+import SvgBoundingBox from './svgBoundingBox';
+import SvgBody from './svgBody';
 
-function SvgQuadtreeNode({quadtree, bodiesSize}) {
+function SvgQuadtreeNode({quadtree, bodiesSize, velocityRatio}) {
 
   function computeOutput(quadtree, bodiesSize){
     if(quadtree?.leaf && quadtree.leaf.body) {
+      console.log("body velocity ", quadtree.leaf.body.velocity);
       return (
-        <>
-          <SvgRectangle 
+        <g>
+          <SvgBoundingBox 
             x={quadtree.boundingBox.bottomLeft.x} y={quadtree.boundingBox.bottomLeft.y} 
             width={quadtree.boundingBox.topRight.x - quadtree.boundingBox.bottomLeft.x}
             height={quadtree.boundingBox.topRight.y - quadtree.boundingBox.bottomLeft.y}
           />
-          <SvgCircle x={quadtree.leaf.body.position.x} y={quadtree.leaf.body.position.y} r={bodiesSize}/>
-        </>
+          <SvgBody x={quadtree.leaf.body.position.x} y={quadtree.leaf.body.position.y} r={bodiesSize} 
+                   vx={quadtree.leaf.body.velocity.x} vy={quadtree.leaf.body.velocity.y}
+                   vr={velocityRatio}/>
+        </g>
       )
     }else if(quadtree?.leaf){
       return (
-        <SvgRectangle 
+        <SvgBoundingBox 
           x={quadtree.boundingBox.bottomLeft.x} y={quadtree.boundingBox.bottomLeft.y} 
           width={quadtree.boundingBox.topRight.x - quadtree.boundingBox.bottomLeft.x}
           height={quadtree.boundingBox.topRight.y - quadtree.boundingBox.bottomLeft.y}
@@ -26,17 +29,17 @@ function SvgQuadtreeNode({quadtree, bodiesSize}) {
       )
     }else if(quadtree?.fork){
       return (
-        <>
-          <SvgRectangle 
+        <g>
+          <SvgBoundingBox 
             x={quadtree.boundingBox.bottomLeft.x} y={quadtree.boundingBox.bottomLeft.y} 
             width={quadtree.boundingBox.topRight.x - quadtree.boundingBox.bottomLeft.x}
             height={quadtree.boundingBox.topRight.y - quadtree.boundingBox.bottomLeft.y}
           />
-          <SvgQuadtreeNode quadtree={quadtree.fork.nw} bodiesSize={bodiesSize}/>
-          <SvgQuadtreeNode quadtree={quadtree.fork.ne} bodiesSize={bodiesSize}/>
-          <SvgQuadtreeNode quadtree={quadtree.fork.se} bodiesSize={bodiesSize}/>
-          <SvgQuadtreeNode quadtree={quadtree.fork.sw} bodiesSize={bodiesSize}/>
-        </>
+          <SvgQuadtreeNode quadtree={quadtree.fork.nw} bodiesSize={bodiesSize} velocityRatio={velocityRatio}/>
+          <SvgQuadtreeNode quadtree={quadtree.fork.ne} bodiesSize={bodiesSize} velocityRatio={velocityRatio}/>
+          <SvgQuadtreeNode quadtree={quadtree.fork.se} bodiesSize={bodiesSize} velocityRatio={velocityRatio}/>
+          <SvgQuadtreeNode quadtree={quadtree.fork.sw} bodiesSize={bodiesSize} velocityRatio={velocityRatio}/>
+        </g>
       )
     }
 
