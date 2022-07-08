@@ -28,12 +28,12 @@ function SvgAnimator({scenario}) {
           }
       }, timeInterval.current);
     }
-    if(scenario.simulationSteps.length > 0 && svgInfo.bodiesSize !== null){
+    if(scenario.simulationSteps.length > 0){
       console.log("START ANIMATION");
       setCurrStep(scenario.simulationSteps[stepIndex.current].quadtree);
       animate();
     }
-  }, [svgInfo, scenario.simulationSteps])
+  }, [scenario.simulationSteps])
 
   function updateTimeInterval(event){
     if(event.target.value > 0 && event.target.value < 5000){

@@ -6,7 +6,6 @@ function SvgQuadtreeNode({quadtree, bodiesSize, velocityRatio}) {
 
   function computeOutput(quadtree, bodiesSize){
     if(quadtree?.leaf && quadtree.leaf.body) {
-      console.log("body velocity ", quadtree.leaf.body.velocity);
       return (
         <g>
           <SvgBoundingBox 
