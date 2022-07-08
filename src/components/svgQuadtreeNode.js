@@ -2,9 +2,9 @@ import React from 'react';
 import SvgRectangle from './svgRectangle';
 import SvgCircle from './svgCircle';
 
-function SvgQuadtreeNode({quadtree}) {
+function SvgQuadtreeNode({quadtree, bodiesSize}) {
 
-  function computeOutput(quadtree){
+  function computeOutput(quadtree, bodiesSize){
     if(quadtree?.leaf && quadtree.leaf.body) {
       return (
         <>
@@ -13,7 +13,7 @@ function SvgQuadtreeNode({quadtree}) {
             width={quadtree.boundingBox.topRight.x - quadtree.boundingBox.bottomLeft.x}
             height={quadtree.boundingBox.topRight.y - quadtree.boundingBox.bottomLeft.y}
           />
-          <SvgCircle x={quadtree.leaf.body.position.x} y={quadtree.leaf.body.position.y} r={100}/>
+          <SvgCircle x={quadtree.leaf.body.position.x} y={quadtree.leaf.body.position.y} r={bodiesSize}/>
         </>
       )
     }else if(quadtree?.leaf){
@@ -32,10 +32,10 @@ function SvgQuadtreeNode({quadtree}) {
             width={quadtree.boundingBox.topRight.x - quadtree.boundingBox.bottomLeft.x}
             height={quadtree.boundingBox.topRight.y - quadtree.boundingBox.bottomLeft.y}
           />
-          <SvgQuadtreeNode quadtree={quadtree.fork.nw}/>
-          <SvgQuadtreeNode quadtree={quadtree.fork.ne}/>
-          <SvgQuadtreeNode quadtree={quadtree.fork.se}/>
-          <SvgQuadtreeNode quadtree={quadtree.fork.sw}/>
+          <SvgQuadtreeNode quadtree={quadtree.fork.nw} bodiesSize={bodiesSize}/>
+          <SvgQuadtreeNode quadtree={quadtree.fork.ne} bodiesSize={bodiesSize}/>
+          <SvgQuadtreeNode quadtree={quadtree.fork.se} bodiesSize={bodiesSize}/>
+          <SvgQuadtreeNode quadtree={quadtree.fork.sw} bodiesSize={bodiesSize}/>
         </>
       )
     }
@@ -47,7 +47,7 @@ function SvgQuadtreeNode({quadtree}) {
   }
 
   return (
-    computeOutput(quadtree)
+    computeOutput(quadtree, bodiesSize)
   );
 }
 
