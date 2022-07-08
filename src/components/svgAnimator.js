@@ -5,7 +5,7 @@ import SvgQuadtreeNode from './svgQuadtreeNode';
 function SvgAnimator({scenario}) {
 
   const [svgInfo, setSvgInfo] = useState(
-    {svgH: 0, svgW: 0, vbH: 0, vbW: 0, vbY: 0, vbX: 0, displayMaxBBox: true}
+    {svgH: 0, svgW: 0, vbH: 0, vbW: 0, vbY: 0, vbX: 0, displayMaxBBox: true, bodiesSize: null}
   );
 
   const [currStep, setCurrStep] = useState([]);
@@ -15,10 +15,12 @@ function SvgAnimator({scenario}) {
 
   useEffect(() => {
     setSvgInfo(utils.setUpSvg(window.innerHeight, window.innerWidth, scenario.maxBoundingBox))
+  }, [scenario])
 
+  useEffect(() => {
+    console.log("ANIMATION HOOK CALLED");
     function animate() {
       setTimeout(() => {
-          console.log(`rendering step ${stepIndex.current}, ${timeInterval.current}...`);
           setCurrStep(scenario.simulationSteps[stepIndex.current].quadtree);
           stepIndex.current++;
           if(stepIndex.current < scenario.simulationSteps.length){
@@ -26,9 +28,12 @@ function SvgAnimator({scenario}) {
           }
       }, timeInterval.current);
     }
-    animate();
-    setCurrStep(scenario.simulationSteps[stepIndex.current].quadtree);
-  }, [scenario])
+    if(scenario.simulationSteps.length > 0 && svgInfo.bodiesSize !== null){
+      console.log("START ANIMATION");
+      setCurrStep(scenario.simulationSteps[stepIndex.current].quadtree);
+      animate();
+    }
+  }, [svgInfo, scenario.simulationSteps])
 
   function updateTimeInterval(event){
     if(event.target.value > 0 && event.target.value < 5000){
@@ -39,7 +44,9 @@ function SvgAnimator({scenario}) {
   return (
     <>
       <svg width={svgInfo.svgW} height={svgInfo.svgH} viewBox={`${svgInfo.vbX} ${svgInfo.vbY} ${svgInfo.vbW} ${svgInfo.vbH}`}>
-        <SvgQuadtreeNode quadtree={currStep}/>
+        {
+          (svgInfo.bodiesSize != null) ? <SvgQuadtreeNode quadtree={currStep} bodiesSize={svgInfo.bodiesSize}/> : <></>
+        }
       </svg>
       <input type="number" id="sleep" name="sleep" min="0" max="5000" defaultValue={timeInterval.current} onChange={updateTimeInterval}/>
     </>
